@@ -1,0 +1,3 @@
+CREATE VECTOR INDEX pdf IF NOT EXISTS
+FOR (c:Chunk)
+ON c.embedding;
