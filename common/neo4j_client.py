@@ -78,6 +78,11 @@ class Neo4jClient:
             **kwargs,
         )
 
+
+    def execute_query_file(self, query_name: str, **kwargs):
+        query = self._load_query(query_name)
+        return self.driver.execute_query(query, **kwargs)
+
     def close(self) -> None:
         """Neo4j 드라이버 연결을 종료합니다."""
         self.driver.close()
