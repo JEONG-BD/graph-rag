@@ -2,21 +2,24 @@ from pathlib import Path
 from typing import Any
 
 from neo4j import Driver, GraphDatabase
+from settings import get_settings
 
+settings = get_settings()
+print(settings.neo4j_url)
 
-class Neo4jClient:
+class Neo4jCustomClient:
     """Neo4j 연결과 Cypher 파일 실행을 관리하는 클라이언트."""
 
     def __init__(
         self,
-        uri: str,
-        user: str,
-        password: str,
+        # uri: str|None = None,
+        # user: str|None = None ,
+        # password: str|None = None,
         cypher_dir: Path | None = None,
     ) -> None:
         self.driver: Driver = GraphDatabase.driver(
-            uri,
-            auth=(user, password),
+            uri = settings.neo4j_url,
+            auth=(settings.neo4j_user,settings.neo4j_password),
         )
 
         self.cypher_dir = (
