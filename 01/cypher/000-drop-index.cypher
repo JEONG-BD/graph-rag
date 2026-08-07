@@ -1,0 +1,1 @@
+DROP INDEX pdf IF EXISTS;
