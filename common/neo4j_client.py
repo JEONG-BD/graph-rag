@@ -7,6 +7,7 @@ from settings import get_settings
 settings = get_settings()
 print(settings.neo4j_url)
 
+
 class Neo4jCustomClient:
     """Neo4j 연결과 Cypher 파일 실행을 관리하는 클라이언트."""
 
@@ -18,14 +19,12 @@ class Neo4jCustomClient:
         cypher_dir: Path | None = None,
     ) -> None:
         self.driver: Driver = GraphDatabase.driver(
-            uri = settings.neo4j_url,
-            auth=(settings.neo4j_user,settings.neo4j_password),
+            uri=settings.neo4j_url,
+            auth=(settings.neo4j_user, settings.neo4j_password),
         )
 
         self.cypher_dir = (
-            cypher_dir
-            if cypher_dir is not None
-            else Path.cwd() / "cypher"
+            cypher_dir if cypher_dir is not None else Path.cwd() / "cypher"
         )
 
     def verify_connectivity(self) -> bool:
@@ -34,9 +33,7 @@ class Neo4jCustomClient:
             self.driver.verify_connectivity()
             return True
         except Exception as e:
-            raise ConnectionError(
-                f"Neo4j 연결에 실패했습니다.: {e}"
-            ) from e
+            raise ConnectionError(f"Neo4j 연결에 실패했습니다.: {e}") from e
 
     def _load_query(self, query_name: str) -> str:
         """
@@ -62,9 +59,7 @@ class Neo4jCustomClient:
             ) from e
 
         if not query:
-            raise ValueError(
-                f"Cypher 파일이 비어 있습니다: {query_path}"
-            )
+            raise ValueError(f"Cypher 파일이 비어 있습니다: {query_path}")
 
         return query
 
@@ -80,7 +75,6 @@ class Neo4jCustomClient:
             query,
             **kwargs,
         )
-
 
     def execute_query_file(self, query_name: str, **kwargs):
         query = self._load_query(query_name)
